@@ -2,46 +2,42 @@
 
 import { useState, useEffect } from "react";
 
-// Function to get the account address
 const getAccount = async () => {
   if (typeof window !== "undefined" && window.ethereum) {
     const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-    return accounts[0]; // Return the first account
+    return accounts[0];
   } else {
     throw new Error("MetaMask is not installed");
   }
 };
 
 const ConnectWallet = () => {
-  const [account, setAccount] = useState(null); // State to store the connected account
-  const [loading, setLoading] = useState(false); // Loading state for the button
+  const [account, setAccount] = useState(null); 
+  const [loading, setLoading] = useState(false); 
 
-  // On component mount, check if the account is stored in localStorage
   useEffect(() => {
     const storedAccount = localStorage.getItem("connectedAccount");
     if (storedAccount) {
-      setAccount(storedAccount); // If the account exists in localStorage, set it
+      setAccount(storedAccount); 
     }
   }, []);
 
-  // Connect wallet function
   const connectWallet = async () => {
     try {
       setLoading(true);
-      const account = await getAccount(); // Get the account from MetaMask
-      setAccount(account); // Set the connected account
-      localStorage.setItem("connectedAccount", account); // Store the account in localStorage
+      const account = await getAccount(); 
+      setAccount(account);
+      localStorage.setItem("connectedAccount", account); 
     } catch (error) {
       console.error("Failed to connect wallet:", error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false); 
     }
   };
 
-  // Disconnect function
   const disconnectWallet = () => {
-    setAccount(null); // Reset the account state
-    localStorage.removeItem("connectedAccount"); // Remove the account from localStorage
+    setAccount(null); 
+    localStorage.removeItem("connectedAccount"); 
   };
 
   return (

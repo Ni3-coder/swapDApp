@@ -1,5 +1,5 @@
 export const CONTRACT_ADDRESSES = {
-    LIQUIDITY_POOL: "0x...", // Your liquidity pool contract address
-    TOKEN_A: "0x...", // Token A address
-    TOKEN_B: "0x...", // Token B address
+    LIQUIDITY_POOL: "0x71130A4E8bDcf6134a87C8Ea75f3BF911AD17822", 
+    TOKEN_A: "0x2897aae55Ac0b8Ce3135d198b6a7b06b964B229B", 
+    TOKEN_B: "0x3f0F7B821AbD0e34C8766c5F76B4cd46691c68FB", 
   };

@@ -3,20 +3,22 @@ import { useState } from "react";
 import ConnectWallet from "@/components/ConnectWallet";
 import { addLiquidity } from "@/lib/liquidity";
 import { swapTokens } from "@/lib/swap";
+import { parseUnits } from "ethers";
 
 const Home = () => {
   const [amountA, setAmountA] = useState("");
   const [amountB, setAmountB] = useState("");
-  const [tokenA, setTokenA] = useState(""); // TokenA address
-  const [tokenB, setTokenB] = useState(""); // TokenB address
+  const [tokenA, setTokenA] = useState("");
+  const [tokenB, setTokenB] = useState("");
   const [activeTab, setActiveTab] = useState("addLiquidity");
 
   const handleAddLiquidity = async () => {
-    await addLiquidity(tokenA, tokenB, ethers.utils.parseUnits(amountA, 18), ethers.utils.parseUnits(amountB, 18));
+    await addLiquidity(parseUnits(amountA, 18), parseUnits(amountB, 18));
+    console.log(amountA);
   };
 
   const handleSwap = async () => {
-    await swapTokens(tokenA, tokenB, ethers.utils.parseUnits(amountA, 18), ethers.utils.parseUnits(amountB, 18));
+    await swapTokens(tokenA, tokenB, parseUnits(amountA, 18), parseUnits(amountB, 18));
   };
 
   return (
@@ -81,6 +83,7 @@ const Home = () => {
                   type="text"
                   className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Amount of TokenA to Swap"
+                  value={amountA}
                   onChange={(e) => setAmountA(e.target.value)}
                 />
                 <button
