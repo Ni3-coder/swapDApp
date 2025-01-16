@@ -8,17 +8,30 @@ import { parseUnits } from "ethers";
 const Home = () => {
   const [amountA, setAmountA] = useState("");
   const [amountB, setAmountB] = useState("");
-  const [tokenA, setTokenA] = useState("");
-  const [tokenB, setTokenB] = useState("");
+  const [tokenA, setTokenA] = useState("");  
+  const [tokenB, setTokenB] = useState("");  
+  const [loading, setLoading] = useState(false); 
   const [activeTab, setActiveTab] = useState("addLiquidity");
 
   const handleAddLiquidity = async () => {
-    await addLiquidity(parseUnits(amountA, 18), parseUnits(amountB, 18));
-    console.log(amountA);
+    setLoading(true); 
+    try {
+      await addLiquidity(parseUnits(amountA, 18), parseUnits(amountB, 18));
+      console.log(amountA);
+    } catch (error) {
+      console.error("Error adding liquidity", error);
+    }
+    setLoading(false);  
   };
 
   const handleSwap = async () => {
-    await swapTokens(tokenA, tokenB, parseUnits(amountA, 18), parseUnits(amountB, 18));
+    setLoading(true);  
+    try {
+      await swapTokens(tokenA, parseUnits(amountA, 18));
+    } catch (error) {
+      console.error("Error swapping tokens", error);
+    }
+    setLoading(false); 
   };
 
   return (
@@ -66,10 +79,11 @@ const Home = () => {
                   onChange={(e) => setAmountB(e.target.value)}
                 />
                 <button
-                  className="w-full p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
+                  className={`w-full p-3 ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500"} text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300`}
                   onClick={handleAddLiquidity}
+                  disabled={loading}  // Disable button during loading
                 >
-                  Add Liquidity
+                  {loading ? "Processing..." : "Add Liquidity"}
                 </button>
               </div>
             </div>
@@ -87,10 +101,11 @@ const Home = () => {
                   onChange={(e) => setAmountA(e.target.value)}
                 />
                 <button
-                  className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  className={`w-full p-3 ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500"} text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300`}
                   onClick={handleSwap}
+                  disabled={loading}  // Disable button during loading
                 >
-                  Swap Tokens
+                  {loading ? "Processing..." : "Swap Tokens"}
                 </button>
               </div>
             </div>
